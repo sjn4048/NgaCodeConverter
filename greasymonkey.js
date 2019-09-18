@@ -14,6 +14,8 @@
 
 jQuery.noConflict();
 
+remote_api = "example.com/api/your_api";
+
 (function($) {
     'use strict';
     // debugger;
@@ -26,7 +28,7 @@ jQuery.noConflict();
             const mdText = textarea.val();
             $.ajax({
                 type: 'POST',
-                url: 'https://ricochet.cn/api/tools/md2bbcode',
+                url: remote_api,
                 data: {text: mdText},
                 success: (res) => {
                     textarea.val(res.msg);
@@ -69,7 +71,7 @@ jQuery.noConflict();
             const mdText = content;
             $.ajax({
                 type: 'POST',
-                url: 'https://ricochet.cn/api/tools/md2bbcode',
+                url: remote_api,
                 data: {text: mdText},
                 success: (res) => {
                     content = res.msg;
@@ -107,17 +109,4 @@ jQuery.noConflict();
             });
         };
     }
-    // postfunc.f_post_old = postfunc.f_post;
-    //postfunc.f_post = () =>{
-    //    const mdText = textarea.val();
-    //    $.ajax({
-    //        type: 'POST',
-    //        url: 'https://ricochet.cn/api/tools/md2bbcode',
-    //        data: {text: mdText},
-    //        success: (res) => {
-    //            textarea.val(res.msg);
-    //            postfunc.f_post_old(this);
-    //        }
-    //    });
-    //}
 })( jQuery );
