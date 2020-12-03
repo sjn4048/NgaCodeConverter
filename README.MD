@@ -8,7 +8,7 @@
 
 ### 在线demo
 
-[在线版](https://ricochet.cn/tools/html2bbc)
+[在线版](https://ricochet.cn/tools/html2bbcode)
 
 ### 支持特性
 
@@ -29,7 +29,7 @@
 
 #### 在线使用（面向一般用户）
 
-[地址](https://ricochet.cn/tools/html2bbc)
+[地址](https://ricochet.cn/tools/html2bbcode)
 
 1. 转换器模式
 
@@ -61,7 +61,7 @@
 
 1. 安装
 
-    使用pip安装
+    ~使用pip安装~（pip安装存在一定问题，将于未来修复，请先使用下面的方法本地安装。）
 
     ```bash
     pip install NgaCodeConverter
