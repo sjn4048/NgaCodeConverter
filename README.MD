@@ -53,15 +53,12 @@
 
    - 由于转换在服务器端进行，为了降低服务器负荷，编辑器内置了200ms的转换延时。当你停止打字累计200ms后，将会产生一次与后端的交互。
 
-     示例：
-
-     ![1568689933777](C:\Users\sjn\AppData\Roaming\Typora\typora-user-images\1568689933777.png)
 
 #### 本地使用（面向开发者）
 
 1. 安装
 
-    ~使用pip安装~（pip安装存在一定问题，将于未来修复，请先使用下面的方法本地安装。）
+    ~使用pip安装~（pip安装存在一定问题，将于短期内修复，请先使用下面的方法本地安装。）
 
     ```bash
     pip install NgaCodeConverter
@@ -92,6 +89,4 @@
 没听说过Markdown？来[这里](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) 学一学吧，轻松提升文本输入效率至少50%。
 
 推荐使用Typora编辑Markdown，并使用本工具进行转换。
-
-本文即是使用Markdown编辑并转码至NGA的。
 
