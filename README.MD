@@ -58,15 +58,17 @@
 
 1. 安装
 
-    ~使用pip安装~（pip安装存在一定问题，将于短期内修复，请先使用下面的方法本地安装。）
+    使用pip安装（pip 0.1.X版本存在bug，已经下架。请确保更新到最新版(≥0.2.0)）
 
     ```bash
     pip install NgaCodeConverter
     ```
 
-    或使用在本仓库中安装
+    或clone仓库后在本地中安装
 
     ```bash
+    git clone https://github.com/sjn4048/NgaCodeConverter
+    cd NgaCodeConverter
     pip install .
     ```
 

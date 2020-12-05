@@ -56,7 +56,7 @@ class HTML2BBCode(HTMLParser):
     >>> str(parser.feed('<span style="font-size: 20px;">Text decorations</span>'))
     '[size=125%]Text decorations[/size]'
 
-    >>> str(parser.feed('<span style="font-size: 16px; color: #055bfa;">Text decorations</span>'))
+    >>> str(parser.feed('<span style="font-size: 16px; color: #70ad47;">Text decorations</span>'))
     '[color=royalblue]Text decorations[/color]'
 
     >>> str(parser.feed('<font color="red">Text decorations</font>'))
@@ -72,7 +72,7 @@ class HTML2BBCode(HTMLParser):
     'Black Text'
 
     >>> str(parser.feed('<span style="color: #d3f;">Deeppink Text</span>'))
-    'color=deeppink]Black Text[/color]'
+    '[color=deeppink]Deeppink Text[/color]'
 
     >>> str(parser.feed('<table border="1"><tr><th>Company</th><th>Address</th></tr><tr><td>Apple, Inc.</td><td>1 Infinite Loop Cupertino, CA 95014</td></tr></table>'))
     '[table][tr][td]Company[/td][td]Address[/td][/tr][tr][td]Apple, Inc.[/td][td]1 Infinite Loop Cupertino, CA 95014[/td][/tr][/table]'
@@ -132,12 +132,7 @@ class HTML2BBCode(HTMLParser):
             if expand in self.attrs[tag][-1]:
                 if expand in ('font', 'font-size'):
                     # 特殊处理
-                    try:
-                        pts = float(self.attrs[tag][-1][expand][:-2])
-                        percentage = max(0.7, min(pts / self.default_fontsize, 2))
-                    except:
-                        print(f'[WARNING] Invalid int literal: {self.attrs[tag][-1][expand][:-2]}')
-                        percentage = 1
+                    percentage = self.parse_font_str(self.attrs[tag][-1][expand])
                     if percentage == 1:
                         # default size, pass
                         continue
@@ -165,11 +160,8 @@ class HTML2BBCode(HTMLParser):
             if expand in self.attrs[tag][-1]:
                 if expand in ('font', 'font-size'):
                     # 特殊处理，如果字号为默认字号则跳过处理
-                    try:
-                        pts = float(self.attrs[tag][-1][expand][:-2])
-                    except:
-                        pts = self.default_fontsize
-                    if pts == self.default_fontsize:
+                    percentage = self.parse_font_str(self.attrs[tag][-1][expand])
+                    if percentage == 1:
                         continue
                     else:
                         self.data.append(
@@ -195,6 +187,21 @@ class HTML2BBCode(HTMLParser):
 
     def handle_charref(self, name):
         self.data.append('&#{};'.format(name))
+
+    def parse_font_str(self, font_str):
+        d = {
+            'small': 0.85,
+            'medium': 1,
+            'large': 1.15
+        }
+        if font_str in d.keys():
+            return d[font_str]
+        try:
+            pts = float(font_str[:-2])
+            return max(0.7, min(pts / self.default_fontsize, 2))
+        except:
+            print(f'[WARNING] Invalid int literal: {font_str[:-2]}')
+            return 1
 
     def parse_color_str(self, color_str):
         d = {
@@ -231,7 +238,7 @@ class HTML2BBCode(HTMLParser):
             return color_str
         elif re.match('#[0-9a-fA-F]{6}', color_str):
             # 六位颜色码
-            min_diff = 16 ** 2 * 3  # largest possible rgb diff
+            min_diff = 256 ** 2 * 3  # largest possible rgb diff
             best_match = default
             for rgb in d.keys():
                 diff = (int(rgb[1:3], 16) - int(color_str[1:3], 16)) ** 2 + \
@@ -243,7 +250,7 @@ class HTML2BBCode(HTMLParser):
             return best_match
         elif re.match('#[0-9a-fA-F]{3}', color_str):
             # 三位颜色码
-            min_diff = 256 ** 2 * 3  # largest possible rgb diff
+            min_diff = 16 ** 2 * 3  # largest possible rgb diff
             best_match = default
             for rgb in d.keys():
                 diff = (int(rgb[1:3], 16) - int(color_str[1], 16) * 16) ** 2 + \
